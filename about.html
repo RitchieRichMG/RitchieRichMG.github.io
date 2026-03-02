@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - TaskForge Automation Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="container header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          TaskForge
+          <small>Personal automation assistant</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a class="active" href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="kicker"><span class="dot"></span> System design overview</div>
+        <h1>Architecture that stays safe and scalable</h1>
+        <p>
+          TaskForge is built in clear layers so it’s easier to secure, test, and scale later.
+          The goal is simple: make helpful suggestions while keeping the user in control.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <h2>Core goal</h2>
+        <p>
+          Reduce stress by helping users organize tasks automatically. After connecting email and calendar accounts,
+          TaskForge can suggest actions like creating calendar events from emails, turning messages into reminders,
+          or organizing schedules. The user always stays in control, and risky actions need approval.
+        </p>
+      </article>
+
+      <article class="card wide">
+        <h2>Layers (simple explanation)</h2>
+        <table class="table" aria-label="Architecture layers">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>What it does</th>
+              <th>Why it matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Client (Web/Mobile)</td>
+              <td>Login, connect accounts, review suggestions</td>
+              <td>Clear UX + user approval</td>
+            </tr>
+            <tr>
+              <td>API Gateway</td>
+              <td>Login checks, routing, rate limits</td>
+              <td>Protects the system</td>
+            </tr>
+            <tr>
+              <td>Orchestrator + Policy Engine</td>
+              <td>Runs workflows + checks permissions</td>
+              <td>Stops unsafe actions</td>
+            </tr>
+            <tr>
+              <td>Queue + Workers</td>
+              <td>Runs longer tasks (email/calendar work)</td>
+              <td>Fast UI and scalable load</td>
+            </tr>
+            <tr>
+              <td>Data + Security</td>
+              <td>PostgreSQL, Redis, Secrets Manager, Audit Log</td>
+              <td>Reliable + secure + trackable</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card">
+        <h2>Main risks found</h2>
+        <ul>
+          <li>Security: too much access to external APIs</li>
+          <li>Coupling: orchestrator doing too much</li>
+          <li>Scalability: worker retries causing duplicate actions</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Mitigations (what we changed)</h2>
+        <ul>
+          <li>Least‑permission OAuth scopes</li>
+          <li>Split roles: orchestrator vs policy vs workers</li>
+          <li>Unique task IDs + status tracking (idempotency)</li>
+          <li>Audit log for every action</li>
+        </ul>
+      </article>
+
+      <article class="card wide">
+        <h2>Example: “No duplicate actions” rule</h2>
+        <div class="split">
+          <div class="step">
+            <strong>The problem</strong><br />
+            <span>If a worker retries, it could create two calendar events or send the same email twice.</span>
+          </div>
+          <div class="step">
+            <strong>The fix</strong><br />
+            <span>Give every task a unique ID, store status in the database, and check before running again.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div>© 2026 Ritchie Jara</div>
+      <div><a href="index.html">Home</a> • <a href="contact.html">Contact</a></div>
+    </div>
+  </footer>
+</body>
+</html>
